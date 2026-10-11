@@ -1,0 +1,87 @@
+version: '3.9'
+services:
+  # LocalStack emulating AWS services (S3, SQS, SNS, DynamoDB, etc.)
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,sts,iam,ec2,ecs,rds,cloudwatch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      retries: 5
+
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  # PostgreSQL databases – one per service (named accordingly)
+  postgres_user:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+
+  postgres_product:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: product
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: productdb
+    ports:
+      - "5433:5432"
+
+  postgres_order:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: orderdb
+    ports:
+      - "5434:5432"
+
+  postgres_payment:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: paymentdb
+    ports:
+      - "5435:5432"
+
+  postgres_inventory:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: inventory
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: inventorydb
+    ports:
+      - "5436:5432"
+
+  postgres_notification:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: notification
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notificationdb
+    ports:
+      - "5437:5432"

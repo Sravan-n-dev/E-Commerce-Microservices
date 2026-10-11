@@ -1,0 +1,5 @@
+api-gateway
+└─ pom.xml
+└─ src/main/java/com/example/apigateway/ApiGatewayApplication.java
+└─ src/main/resources/application.yml
+└─ src/main/java/com/example/apigateway/controller/HelloController.java

@@ -1,0 +1,31 @@
+# Maven / Gradle
+/target/
+/.mvn/
+/.idea/
+*.iml
+*.log
+*.class
+*.jar
+*.war
+*.ear
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+*.project
+*.classpath
+*.settings/
+.vscode/
+
+# Local Docker files
+/docker-compose.override.yml
+
+# Terraform state
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# LocalStack data
+/tmp/localstack*
